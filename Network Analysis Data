@@ -1,0 +1,52 @@
+import networkx as nx
+import matplotlib.pyplot as plt
+
+# Create a new directed graph
+G = nx.DiGraph()
+
+# Add nodes
+nodes = [
+    "Tweet_NO", "Tweet_URL", "Tweet_ID", "Author_@", "Language", 
+    "What_is_being_analysed?", "Claim/s", "Status_of_data_and/or_information", 
+    "Additional_insight(s)", "Links_to_sources", "Credits", "Annotated_content", 
+    "Manipulation", "Noise", "Specialized_knowledge", "Method_communication", 
+    "Argumentation", "Gaps_in_information", "Replicable_result", "Self_affirmation", 
+    "Hashtags", "Logical_structure", "Emotive_language", "Victim_literature", 
+    "Harmful_language", "Sarcasm", "The_sharing_OSINT_Tools/Technologies", 
+    "Community_vernacular_usage", "Tagging_third_parties", "Some_engagement_(likes,_retweets)"
+]
+
+G.add_nodes_from(nodes)
+
+# Add edges
+edges = [
+    ("Tweet_NO", "Claim/s"), ("Tweet_URL", "Links_to_sources"), ("Tweet_ID", "Links_to_sources"),
+    ("Author_@", "Tweet_NO"), ("Language", "Author_@"), ("What_is_being_analysed?", "Tweet_NO"),
+    ("Claim/s", "Tweet_NO"), ("Status_of_data_and/or_information", "Claim/s"),
+    ("Additional_insight(s)", "Status_of_data_and/or_information"),
+    ("Links_to_sources", "Claim/s"), ("Credits", "Links_to_sources"),
+    ("Annotated_content", "Claim/s"), ("Manipulation", "Annotated_content"),
+    ("Noise", "Manipulation"), ("Specialized_knowledge", "Manipulation"),
+    ("Method_communication", "Specialized_knowledge"),
+    ("Argumentation", "Method_communication"), ("Gaps_in_information", "Argumentation"),
+    ("Replicable_result", "Gaps_in_information"), ("Self_affirmation", "Replicable_result"),
+    ("Hashtags", "Tweet_NO"), ("Logical_structure", "Argumentation"),
+    ("Emotive_language", "Argumentation"), ("Victim_literature", "Emotive_language"),
+    ("Harmful_language", "Victim_literature"), ("Sarcasm", "Argumentation"),
+    ("The_sharing_OSINT_Tools/Technologies", "Argumentation"),
+    ("Community_vernacular_usage", "The_sharing_OSINT_Tools/Technologies"),
+    ("Tagging_third_parties", "Tweet_NO"), ("Some_engagement_(likes,_retweets)", "Tagging_third_parties")
+]
+
+G.add_edges_from(edges)
+
+# Create a new figure and axes using Matplotlib
+fig, ax = plt.subplots(figsize=(10, 8))
+
+# Position nodes using spring layout algorithm
+pos = nx.spring_layout(G, seed=42)
+
+# Draw the network graph
+nx.draw(G, pos, with_labels=True, node_size=800, node_color="skyblue", font_size=8, font_weight="bold", ax=ax)
+ax.set_title("OSINT Twitter Data Network Graph")
+plt.show()
